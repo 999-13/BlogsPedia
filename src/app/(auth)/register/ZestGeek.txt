@@ -1,0 +1,49 @@
+use ('ZestGeek')
+// db.Students.aggregate([
+//         {
+//             $project:
+//             {
+//                 _id:0, 
+//                 Gender:{
+//                     $regexMatch:[]
+//                 }
+//             }
+//         }
+// ])
+/////////////////////////////////////////////////////Male Female Max score
+// db.Students.aggregate([
+//     {
+//         $project:
+//         { 
+//             _id:0,
+//             Gender:{
+//                 $cond: 
+//                 { if: {$regexMatch:{input:"$Name", regex:/^Miss/}}, 
+//                 then: "F", 
+//                 else: "M" 
+//                 }
+//             },
+//             total:{
+//                 $add:["$English", "$Science", "$Math"]
+//             }
+//         }
+//     },
+//     {
+//         $group:{
+//             _id:"$Gender", 
+//             MaxScore:{$max: "$total"}
+//         }
+        
+//     }
+// ])
+/////////////////////////////////////Failures
+db.Students.aggregate([
+    {
+        $project:{
+            _id:0,
+            passStatus:{
+               $min:[["$English", "$Science", "$Math"], 20]
+            }
+        }
+    }
+])
